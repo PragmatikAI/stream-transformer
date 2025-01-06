@@ -1,0 +1,18 @@
+{
+  "input": {
+    "type": "kafka"
+    "topicName": "enriched"
+    "bootstrapServers": "localhost:9092"
+    "consumerConf": {
+      "enable.auto.commit": "false"
+      "auto.offset.reset" : "latest"
+      "group.id": "pa-stream-transformer"
+      "allow.auto.create.topics": "false"
+    }
+  }
+  "output": {
+    "type": "kafka"
+    "topicName": "transformed-json"
+    "bootstrapServers": "localhost:9092"
+  }
+}
