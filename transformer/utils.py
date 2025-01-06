@@ -40,11 +40,12 @@ def convert_context_name(context_name):
 def convert_context(context_name, context_data):
   result ={}
   context_key = convert_context_name(context_name)
-  for key in context_data:
-    fmt_key = pattern.sub('_', key).lower()
-    result[f"{context_key}_{fmt_key}"] = context_data[key]['data']
+  for data in context_data:
+    for key in data:
+      fmt_key = pattern.sub('_', key).lower()
+      result[f"{context_key}_{fmt_key}"] = data[key]
+    break # only want to process the first item in the list
   return result
-
 
 def flatten_event(event):
   result ={}
