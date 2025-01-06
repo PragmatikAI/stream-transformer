@@ -41,8 +41,8 @@ def run(bootstrap_server, group_id, enriched_topic, transformed_topic):
       try:
         json_data = snowplow_analytics_sdk.event_transformer.transform(event)
         logging.debug(f"Transformed event: {json_data}")
-        json_data = utils.flatten_event(json_data)
-        logging.debug(f"Flattened event: {json_data}")
+        # json_data = utils.flatten_event(json_data)
+        # logging.debug(f"Flattened event: {json_data}")
         kafka_producer.poll(0)
         kafka_producer.produce(transformed_topic, json.dumps(json_data).encode('utf-8'))
         kafka_producer.flush()
