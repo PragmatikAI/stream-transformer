@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.INFO)
 
 def run(bootstrap_server, group_id, enriched_topic, transformed_topic):
   try:
-    logging.info(f"Starting Kafka Transformer with \n- bootstrap server: {bootstrap_server} \n-group id: {group_id} \n-enriched topic: {enriched_topic} \n-transformed topic: {transformed_topic}")
+    logging.info(f"Starting Kafka Transformer with \n- bootstrap server: {bootstrap_server} \n- group id: {group_id} \n- enriched topic: {enriched_topic} \n- transformed topic: {transformed_topic}")
     kafka_consumer = Consumer({
       'bootstrap.servers': bootstrap_server,
       'group.id': group_id,
