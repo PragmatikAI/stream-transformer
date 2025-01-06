@@ -58,4 +58,10 @@ def run(bootstrap_server, group_id, enriched_topic, transformed_topic):
 
 if __name__ == "__main__":
   conf = ConfigFactory.parse_file('/pragmatik/config/transformer-config.hocon')
+
+  if conf.get("logging.level") == "DEBUG":
+    logging.basicConfig(level=logging.DEBUG)
+  else:
+    logging.basicConfig(level=logging.INFO)
+
   run(conf.get("input.bootstrapServers"), conf.get("input.consumerConf.group_id"), conf.get("input.topicName"), conf.get("output.topicName"))
