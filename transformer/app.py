@@ -6,7 +6,6 @@ import logging
 import utils
 from pyhocon import ConfigFactory
 
-logging.basicConfig(level=logging.INFO)
 
 def run(bootstrap_server, group_id, enriched_topic, transformed_topic):
   try:
@@ -15,7 +14,7 @@ def run(bootstrap_server, group_id, enriched_topic, transformed_topic):
       'bootstrap.servers': bootstrap_server,
       'group.id': group_id,
       'default.topic.config': {
-        'auto.offset.reset': 'latest'
+        'auto.offset.reset': 'earliest'
       }
     })
 
