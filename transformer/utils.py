@@ -8,10 +8,12 @@ def convert_context_name(context_name):
     'contexts_ai_pragmatik_incognito_1': 'incognito',
     'contexts_ai_pragmatik_hid_1': 'hid',
     'contexts_ai_pragmatik_client_id_1': 'client_id',
+    'contexts_ai_pragmatik_client-id_1': 'client_id',
     'contexts_co_hedingham_ip-api_1': 'ip_api',
     'contexts_co_hedingham_incognito_1': 'incognito',
     'contexts_co_hedingham_hid_1': 'hid',
     'contexts_co_hedingham_client_id_1': 'client_id',
+    'contexts_co_hedingham_client-id_1': 'client_id',
     'contexts_uk_co_bullionbypost_hid_1': 'bbp_hid',
     'contexts_com_snowplowanalytics_snowplow_web_page_1': 'web_page',
     'contexts_com_snowplowanalytics_snowplow_browser_context_1': 'browser_context',
@@ -21,14 +23,14 @@ def convert_context_name(context_name):
     'contexts_com_snowplowanalytics_snowplow_client_session_1': 'client_session',
     'contexts_com_snowplowanalytics_snowplow_ua_parser_context_1': 'ua',
     'contexts_com_iab_snowplow_spiders_and_robots_1': 'spiders_and_robots',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_cart': 'ecommerce_cart',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_checkout_step': 'ecommerce_checkout_step',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_page': 'ecommerce_page',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_product': 'ecommerce_product',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_transaction': 'ecommerce_transaction',
-    'contexts_com_snowplowanalytics_snowplow_ecommerce_user': 'ecommerce_user',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_cart_1': 'ecommerce_cart',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_checkout_step_1': 'ecommerce_checkout_step',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_page_1': 'ecommerce_page',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_product_1': 'ecommerce_product',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_transaction_1': 'ecommerce_transaction',
+    'contexts_com_snowplowanalytics_snowplow_ecommerce_user_1': 'ecommerce_user',
     'contexts_nl_basjes_yauaa_context_1': 'yauaa',
-    'unstruct_event_com_snowplowanalytics_snowplow_ecommerce_snowplow_ecommerce_action': 'ecommerce_action',
+    'unstruct_event_com_snowplowanalytics_snowplow_ecommerce_snowplow_ecommerce_action_1': 'ecommerce_action',
     'unstruct_event_com_snowplowanalytics_snowplow_link_click_1': 'link_click',
     'unstruct_event_com_snowplowanalytics_snowplow_submit_form_1': 'submit_form'
   }
@@ -47,11 +49,22 @@ def convert_context(context_name, context_data):
     break # only want to process the first item in the list
   return result
 
+def convert_unstruct_event(context_name, context_data):
+  result ={}
+  context_key = convert_context_name(context_name)
+  for key in context_data:
+    fmt_key = pattern.sub('_', key).lower()
+    result[f"{context_key}_{fmt_key}"] = context_data[key]
+  return result
+
 def flatten_event(event):
   result ={}
   for key in event:
     if key.startswith('contexts_'):
       c = convert_context(key, event[key])
+      result = {**result, **c}
+    elif key.startswith('unstruct_event_'):
+      c = convert_unstruct_event(key, event[key])
       result = {**result, **c}
     else:
       result[key] = event[key]

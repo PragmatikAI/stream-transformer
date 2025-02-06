@@ -2,3 +2,4 @@ k8s-deploy/
 build.sh
 transformer/*.hocon
 __pycache__/
+test_app.py
