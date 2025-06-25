@@ -28,3 +28,5 @@ python -m test.utils
 
 ## Build
 just push it to github and it'll get pushed to dockerhub
+
+don't for get to tag the commit for git action to run
