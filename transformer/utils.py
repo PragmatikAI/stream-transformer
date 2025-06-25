@@ -69,3 +69,23 @@ def flatten_event(event):
     else:
       result[key] = event[key]
   return result
+
+
+def split_event(event):
+  """
+  Split the event into multiple events based on the unstruct_event_ schema.
+  Specifically, when unstruct_event_ schema is of unstruct_event_com_snowplowanalytics_snowplow_ecommerce_snowplow_ecommerce_action_1 and the action type is list_view,
+  we need to split the event into multiple events.
+  """
+  results = []
+  has_split =False
+  for key in event:
+    if 'ecommerce_action' in key and event[key]['type'] == 'list_view':
+      for product in event['contexts_com_snowplowanalytics_snowplow_ecommerce_product_1']:
+        has_split = True
+        new_event = event.copy()
+        new_event['contexts_com_snowplowanalytics_snowplow_ecommerce_product_1'] = [product]
+        results.append(new_event)
+  if not has_split:
+    results.append(event)
+  return results
